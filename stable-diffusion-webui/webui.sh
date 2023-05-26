@@ -212,5 +212,5 @@ else
     printf "Launching launch.py..."
     printf "\n%s\n" "${delimiter}"
     prepare_tcmalloc
-    exec "${python_cmd}" "${LAUNCH_SCRIPT}" "$@"
+    exec "${python_cmd}" -u "${LAUNCH_SCRIPT}" "$@"
 fi
