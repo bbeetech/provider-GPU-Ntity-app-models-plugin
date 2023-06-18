@@ -291,9 +291,20 @@ def initialize_rest(*, reload_script_modules=False):
     modules.sd_hijack.list_optimizers()
     startup_timer.record("scripts list_optimizers")
 
-    # load model in parallel to other startup stuff
-    # (when reloading, this does nothing)
-    Thread(target=lambda: shared.sd_model).start()
+    def load_model():
+        """
+        Accesses shared.sd_model property to load model.
+        After it's available, if it has been loaded before this access by some extension,
+        its optimization may be None because the list of optimizaers has neet been filled
+        by that time, so we apply optimization again.
+        """
+
+        shared.sd_model  # noqa: B018
+
+        if modules.sd_hijack.current_optimizer is None:
+            modules.sd_hijack.apply_optimizations()
+
+    Thread(target=load_model).start()
 
     shared.reload_hypernetworks()
     startup_timer.record("reload hypernetworks")
@@ -318,8 +329,10 @@ def configure_cors_middleware(app):
         "allow_methods": ["*"],
         "allow_headers": ["*"],
         "allow_credentials": True,
-        "allow_origins": ["*"]
+        "allow_origins": ["*"],
     }
+    if cmd_opts.cors_allow_origins:
+        cors_options["allow_origins"] = cmd_opts.cors_allow_origins.split(',')
     if cmd_opts.cors_allow_origins_regex:
         cors_options["allow_origin_regex"] = cmd_opts.cors_allow_origins_regex
     app.add_middleware(CORSMiddleware, **cors_options)
