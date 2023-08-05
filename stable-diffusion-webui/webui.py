@@ -363,7 +363,7 @@ def stop_route(request):
 
 
 def webui():
-    launch_api = cmd_opts.api
+    launch_api = True
     initialize()
 
     while 1:
