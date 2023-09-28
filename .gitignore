@@ -1,4 +1,5 @@
 fooocus/__pycache__
 fooocus/fooocus_env
 fooocus/modules/__pycache__
+fooocus/models/checkpoints
 fooocus/user_path_config.txt
