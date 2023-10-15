@@ -1,3 +1,42 @@
+# 2.1.62
+
+* Preset system. Added anime and realistic support.
+
+# 2.1.52
+
+* removed pygit2 dependency (expect auto update) so that people will never have permission denied problems.
+
+# 2.1.50
+
+* Begin to support sd1.5 as refiner. This method scale sigmas given SD15/Xl latent scale and is probably the most correct way to do it. I am going to write a discussion soon.
+
+# 2.1.25
+
+AMD support on Linux and Windows.
+
+# 2.1.0
+
+* Image Prompt
+* Finished the "Moving from Midjourney" Table
+
+# 2.0.85
+
+* Speed Up Again
+
+# 2.0.80
+
+* Improved the scheduling of ADM guidance and CFG mimicking for better visual quality in high frequency domain and small objects.
+
+# 2.0.80
+
+* Rework many patches and some UI details.
+* Speed up processing.
+* Move Colab to independent branch.
+* Implemented CFG Scale and TSNR correction when CFG is bigger than 10.
+* Implemented Developer Mode with more options to debug.
+
+### 2.0.72
+
 (2023 sep 21) The feature updating of Fooocus will be paused for about two or three weeks because we have some events and travelling - we will come back in early or mid October. 
 
 ### 2.0.72

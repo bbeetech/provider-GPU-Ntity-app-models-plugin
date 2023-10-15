@@ -1,10 +1,10 @@
 import torch
 
-import comfy.model_management as model_management
+import fcbh.model_management as model_management
 
 from transformers import AutoTokenizer, AutoModelForCausalLM, set_seed
 from modules.path import fooocus_expansion_path
-from comfy.sd import ModelPatcher
+from fcbh.model_patcher import ModelPatcher
 
 
 fooocus_magic_split = [
@@ -34,20 +34,26 @@ class FooocusExpansion:
         self.model.eval()
 
         load_device = model_management.text_encoder_device()
+        offload_device = model_management.text_encoder_offload_device()
 
-        if 'mps' in load_device.type:
+        # MPS hack
+        if model_management.is_device_mps(load_device):
             load_device = torch.device('cpu')
+            offload_device = torch.device('cpu')
 
-        if 'cpu' not in load_device.type and model_management.should_use_fp16():
+        use_fp16 = model_management.should_use_fp16(device=load_device)
+
+        if use_fp16:
             self.model.half()
 
-        offload_device = model_management.text_encoder_offload_device()
         self.patcher = ModelPatcher(self.model, load_device=load_device, offload_device=offload_device)
-
-        print(f'Fooocus Expansion engine loaded for {load_device}.')
+        print(f'Fooocus Expansion engine loaded for {load_device}, use_fp16 = {use_fp16}.')
 
     def __call__(self, prompt, seed):
-        model_management.load_model_gpu(self.patcher)
+        if self.patcher.current_device != self.patcher.load_device:
+            print('Fooocus Expansion loaded by itself.')
+            model_management.load_model_gpu(self.patcher)
+
         seed = int(seed)
         set_seed(seed)
         origin = safe_str(prompt)
