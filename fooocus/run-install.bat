@@ -2,10 +2,10 @@
 
 rem Define the URLs and file paths
 set "download_url=https://github.com/lllyasviel/Fooocus/releases/download/release/Fooocus_win64_2-1-60.7z"
-set "downloaded_file=fooocus.7z"
+set "downloaded_file=fooocus(sdxl).7z"
 set "installDir=C:\Program Files\WinRAR"
-set "extracted_folder=fooocus_extracted"
-set "run_script=run.bat"
+set "extracted_folder=Fooocus(SDXL)"
+set "run_script=.\run.bat"
 
 rem Step 1: Download fooocus.7z with progress
 if not exist "%downloaded_file%" (
