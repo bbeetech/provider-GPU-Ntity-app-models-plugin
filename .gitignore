@@ -1,5 +1,1 @@
-fooocus/__pycache__
-fooocus/fooocus_env
-fooocus/modules/__pycache__
-fooocus/models/
-fooocus/user_path_config.txt
+fooocus/**
