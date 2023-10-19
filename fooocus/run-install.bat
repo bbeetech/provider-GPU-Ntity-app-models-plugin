@@ -1,19 +1,5 @@
 @echo off
 
-REM Check if cURL is installed
-
-set "PATH=%SystemRoot%\System32;%PATH%"
-
-choco list --local-only curl | findstr /C:"1 packages installed."
-
-REM If cURL is not installed, install it using Chocolatey
-if errorlevel 1 (
-    echo cURL is not installed. Installing cURL using Chocolatey...
-    choco install curl -y
-) else (
-    echo cURL is already installed.
-)
-
 REM Define the URLs and file paths
 set "download_url=https://github.com/lllyasviel/Fooocus/releases/download/release/Fooocus_win64_2-1-60.7z"
 set "downloaded_file=fooocus.7z"
@@ -24,6 +10,7 @@ set "run_script=run.bat"
 REM Step 1: Download fooocus.7z with progress
 if not exist "%downloaded_file%" (
     echo Downloading %downloaded_file%...
+    choco install curl -y
     curl -# -L -o "%downloaded_file%" "%download_url%"
 ) else (
     echo %downloaded_file% already exists. Skipping download.
