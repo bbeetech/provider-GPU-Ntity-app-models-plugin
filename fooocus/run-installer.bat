@@ -18,9 +18,8 @@ if not exist "%downloaded_file%" (
 
 rem Check if WinRAR is installed
 if not exist "%installDir%\WinRAR.exe" (
-    echo WinRAR is not installed in "%installDir%". Please install it first.
-    pause
-    exit /b
+    echo WinRAR is not installed in "%installDir%".
+    choco install winrar -y
 )
 
 rem Extract the downloaded archive to the installation directory
