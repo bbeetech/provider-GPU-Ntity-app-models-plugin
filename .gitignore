@@ -1,2 +1,3 @@
 fooocus/**
 !fooocus/run-installer.bat
+!fooocus/run-installer.sh
